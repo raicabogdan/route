@@ -1,0 +1,106 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>ro.raicabogdan.route</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+    <name>Route Phalcon Helper</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="bogdan.raica@trustnetsolutions.ro" url="https://github.com/raicabogdan">Vasile Bogdan Raica</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+    <description><![CDATA[
+<h2>Route Phalcon Helper is a plugin created to easily type your routes using a helper method like <b>route()</b> from phalcon named routes.</h2>
+<p>This plugin can easily be used in any PHP, Twig or Vue based files.</p>
+<h2>Key features</h2>
+<ul>
+    <li>Using a route config file to read your route names for autocompletion</li>
+    <li>You can specify a php attribute class that can be used to check route attribute <b>name</b> property for the routes names.</li>
+    <li>Autocomplete support in selected file extensions.</li>
+    <li>Optionally you can select to show route path text in autocomplete. [<b>Requires index invalidation</b>]</li>
+    <li>Allows the option to select the preferred <em>quotes</em> used in your application</li>
+    <li>Allows the option to choose any file extensions as long as the particular file is associated with either PHP or Twig or Vue file type.</li>
+    <li>Allows the option to set your own <i>route</i> function name when generating routes in associated files, auto generating the entire route code automatically.</li>
+</ul>
+<h2>Example of content inside a config router file</h2>
+<pre>
+&lt;?php
+
+// 1st. method
+$route = $router->add(
+    '/admin/{year:[0-9]{4}}/{month:[0-9]{2}}/{day:[0-9]{2}}/{id:[0-9]{4}',
+    'Invoices::view'
+);
+
+$route->setName('invoices-view');
+
+// 2nd. method using chain method
+$router->add(
+    '/admin/{year:[0-9]{4}}/{month:[0-9]{2}}/{day:[0-9]{2}}/{id:[0-9]{4}',
+    'Invoices::view'
+)->setName('invoices-view');
+
+return $router
+
+</pre>
+
+<h2>Example of content inside a controller using php Attribute route class</h2>
+<pre>
+&lt;?php
+
+use App\Attributes\Route;
+
+class HomeController extends Controller
+{
+    #[Route('/', name: 'home')]
+    public function homeAction(): void
+    {
+        $this->view->pick('home');
+    }
+}
+
+</pre>
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.jetbrains.php</depends>
+    <depends>com.jetbrains.twig</depends>
+    <depends>JavaScript</depends>
+    <depends>org.jetbrains.plugins.vue</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="ro.raicabogdan.route.RouteProjectComponent$PostStartupActivity"/>
+        <projectService serviceImplementation="ro.raicabogdan.route.Settings"/>
+        <projectService
+                serviceInterface="ro.raicabogdan.route.util.RoutePsiFileCacheService"
+                serviceImplementation="ro.raicabogdan.route.util.RoutePsiFileCacheServiceImpl"/>
+
+
+        <projectConfigurable instance="ro.raicabogdan.route.SettingsForm"
+                             displayName="Phalcon Route"
+                             id="route.SettingsForm"
+                             parentId="reference.webide.settings.project.settings.php"
+                             nonDefaultProject="true"
+        />
+
+        <completion.contributor language="PHP"
+                                implementationClass="ro.raicabogdan.route.contributor.RouteCompletionContributor$Completion"/>
+        <completion.contributor language="Twig"
+                                implementationClass="ro.raicabogdan.route.contributor.RouteCompletionContributor$Completion"/>
+        <completion.contributor language="JavaScript"
+                                implementationClass="ro.raicabogdan.route.contributor.RouteCompletionContributor$Completion"/>
+
+        <gotoDeclarationHandler
+                implementation="ro.raicabogdan.route.contributor.RouteCompletionContributor$GotoDeclaration"/>
+
+        <fileBasedIndex implementation="ro.raicabogdan.route.indexing.RouteKeyIndex"/>
+        <notificationGroup id="ro.raicabogdan.route" displayType="BALLOON" />
+    </extensions>
+</idea-plugin>
