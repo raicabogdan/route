@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-    <name>Route Phalcon Helper</name>
+    <name>Phalcon Route</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="bogdan.raica@trustnetsolutions.ro" url="https://github.com/raicabogdan">Vasile Bogdan Raica</vendor>
@@ -13,7 +13,7 @@
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-<h2>Route Phalcon Helper is a plugin created to easily type your routes using a helper method like <b>route()</b> from phalcon named routes.</h2>
+<h2>Phalcon Route is a helper plugin created to easily type your routes using a helper method like <b>route()</b> from phalcon named routes.</h2>
 <p>This plugin can easily be used in any PHP, Twig or Vue based files.</p>
 <h2>Key features</h2>
 <ul>

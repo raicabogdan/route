@@ -56,7 +56,7 @@ public class NotificationUtil {
             }
         });
 
-        notification.setTitle("Phalcon Route Helper");
+        notification.setTitle("Phalcon Route");
         notification.notify(project);
     }
 }

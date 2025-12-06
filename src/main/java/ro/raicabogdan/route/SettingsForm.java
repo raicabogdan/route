@@ -47,7 +47,7 @@ public class SettingsForm implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "Phalcon Route Helper";
+        return "Phalcon Route";
     }
 
     @Nullable
