@@ -9,7 +9,6 @@ import com.intellij.openapi.startup.ProjectActivity;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
-import com.intellij.util.concurrency.AppExecutorUtil;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import kotlin.Unit;
@@ -27,9 +26,7 @@ public class RouteProjectComponent {
         @Override
         public Object execute(@NotNull Project project, @NotNull Continuation<? super Unit> continuation) {
             if (!ApplicationManager.getApplication().isUnitTestMode() && !ApplicationManager.getApplication().isHeadlessEnvironment()) {
-                DumbService.getInstance(project).runWhenSmart(() -> {
-                    ReadAction.run(() -> checkIfProjectHasPluginEnabled(project));
-                });
+                DumbService.getInstance(project).runWhenSmart(() -> ReadAction.run(() -> checkIfProjectHasPluginEnabled(project)));
             }
 
             return Unit.INSTANCE;

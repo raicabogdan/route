@@ -131,11 +131,7 @@ public class RouteIndexUtil {
 
                 for (RouteAttributeUtil.RouteAttributeInfo info : routeAttributes) {
                     // Check if this attribute has the matching route name
-                    String foundRouteName = RouteAttributeUtil.extractRouteNameFromAttribute(
-                        info.attribute,
-                        project,
-                        attributeClass
-                    );
+                    String foundRouteName = RouteAttributeUtil.extractRouteNameFromAttribute(info.attribute);
 
                     if (routeKey.equals(foundRouteName)) {
                         // Return the method itself for better navigation to the controller action

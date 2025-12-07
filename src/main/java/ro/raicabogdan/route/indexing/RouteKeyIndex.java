@@ -14,7 +14,6 @@ import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 import ro.raicabogdan.route.Settings;
-import ro.raicabogdan.route.RouteProjectComponent;
 import ro.raicabogdan.route.util.RouteAttributeUtil;
 
 import java.util.Collection;
@@ -145,11 +144,7 @@ public class RouteKeyIndex extends FileBasedIndexExtension<String, String> {
                 RouteAttributeUtil.findRouteAttributesOnMethods(phpFile, attributeClassName);
 
         for (RouteAttributeUtil.RouteAttributeInfo info : routeAttributes) {
-            String routeName = RouteAttributeUtil.extractRouteNameFromAttribute(
-                info.attribute,
-                phpFile.getProject(),
-                attributeClassName
-            );
+            String routeName = RouteAttributeUtil.extractRouteNameFromAttribute(info.attribute);
 
             if (routeName != null) {
                 String routePath = "";
@@ -188,7 +183,6 @@ public class RouteKeyIndex extends FileBasedIndexExtension<String, String> {
         // Handle variable assignment: $route = $router->add(...); $route->setName(...)
         PsiElement classRef = setNameCall.getClassReference();
         if (classRef instanceof Variable) {
-            Variable variable = (Variable) classRef;
             // Find assignment of this variable
             AssignmentExpression assignment = PsiTreeUtil.findChildOfType(
                 setNameCall.getContainingFile(),

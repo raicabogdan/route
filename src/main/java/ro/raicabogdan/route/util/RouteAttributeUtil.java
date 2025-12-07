@@ -68,12 +68,14 @@ public class RouteAttributeUtil {
                 for (PhpAttribute attribute : attributes) {
                     String attributeFQN = attribute.getFQN();
 
-                    // Normalize FQN by removing leading backslash for comparison
-                    String normalizedFQN = attributeFQN.startsWith("\\") ? attributeFQN.substring(1) : attributeFQN;
-                    String normalizedTarget = attributeClassName.startsWith("\\") ? attributeClassName.substring(1) : attributeClassName;
+                    if (attributeFQN != null) {
+                        // Normalize FQN by removing leading backslash for comparison
+                        String normalizedFQN = attributeFQN.startsWith("\\") ? attributeFQN.substring(1) : attributeFQN;
+                        String normalizedTarget = attributeClassName.startsWith("\\") ? attributeClassName.substring(1) : attributeClassName;
 
-                    if (normalizedTarget.equals(normalizedFQN)) {
-                        results.add(new RouteAttributeInfo(attribute, method));
+                        if (normalizedTarget.equals(normalizedFQN)) {
+                            results.add(new RouteAttributeInfo(attribute, method));
+                        }
                     }
                 }
             }
@@ -133,7 +135,7 @@ public class RouteAttributeUtil {
      * Extract route name from attribute - supports both positional and named parameters
      * Uses fallback approach that doesn't require PhpIndex (safe for indexing phase)
      */
-    public static @Nullable String extractRouteNameFromAttribute(PhpAttribute attribute, Project project, String attributeClassName) {
+    public static @Nullable String extractRouteNameFromAttribute(PhpAttribute attribute) {
         // First try named parameter (name: 'value')
         String namedValue = extractNamedParameter(attribute, "name");
         if (namedValue != null) {
