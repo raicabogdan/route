@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "ro.raicabogdan.route"
-version = "2025-12.06.1"
+version = "2026-03.09.1"
 
 repositories {
     mavenCentral()

@@ -1,8 +1,8 @@
 package ro.raicabogdan.route;
 
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.DumbAware;
+import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.ProjectActivity;
@@ -26,7 +26,7 @@ public class RouteProjectComponent {
         @Override
         public Object execute(@NotNull Project project, @NotNull Continuation<? super Unit> continuation) {
             if (!ApplicationManager.getApplication().isUnitTestMode() && !ApplicationManager.getApplication().isHeadlessEnvironment()) {
-                DumbService.getInstance(project).runWhenSmart(() -> ReadAction.run(() -> checkIfProjectHasPluginEnabled(project)));
+                DumbService.getInstance(project).runWhenSmart(() -> ApplicationManager.getApplication().runReadAction(() -> checkIfProjectHasPluginEnabled(project)));
             }
 
             return Unit.INSTANCE;
@@ -81,7 +81,7 @@ public class RouteProjectComponent {
      * @return true if the class exists, false otherwise
      */
     public static boolean phpClassExists(@NotNull Project project, @NotNull String fqn) {
-        return ReadAction.compute(() -> {
+        return ApplicationManager.getApplication().runReadAction((Computable<Boolean>) () -> {
             PhpIndex phpIndex = PhpIndex.getInstance(project);
             Collection<PhpClass> classes = phpIndex.getAnyByFQN(fqn);
             return !classes.isEmpty();

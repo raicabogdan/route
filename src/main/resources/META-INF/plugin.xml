@@ -65,6 +65,13 @@ class HomeController extends Controller
 </pre>
     ]]></description>
 
+    <change-notes><![CDATA[
+<h3>2026-03.09.1</h3>
+<ul>
+    <li>Fixed deprecated / plugin compatibility issues</li>
+</ul>
+    ]]></change-notes>
+
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
